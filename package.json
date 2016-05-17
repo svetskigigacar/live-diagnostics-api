@@ -28,7 +28,7 @@
     "supertest": "0.15.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "app.js"
   },
   "api": {
     "name": "live-diagnostics-api",
