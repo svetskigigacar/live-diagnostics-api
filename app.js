@@ -33,5 +33,5 @@ a127.init(function(config) {
   var port = process.env.PORT || 10010;
   // begin listening for client requests
   //app.listen(port, ip);
-  listen process.env.PORT || 5000;
+  app.listen process.env.PORT || 5000
 });
