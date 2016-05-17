@@ -34,5 +34,8 @@
     "name": "live-diagnostics-api",
     "basePath": "/live-diagnostics-api",
     "main": "app.js"
+  },
+  "engines": {
+    "node": "6.1.0"
   }
 }
