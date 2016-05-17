@@ -30,7 +30,7 @@ a127.init(function(config) {
   });
 
   var ip = process.env.IP || 'localhost';
-  var port = process.env.PORT || 10010;
+  var port = process.env.PORT || 5000;
   // begin listening for client requests
   app.listen(port, ip);
 });
