@@ -60,6 +60,7 @@ function putSessionInfoItem(req, res) {
       audioBitrate = json.audio_bitrate,
       videoLoss = json.video_loss,
       audioLoss = json.audio_loss,
+      latency = json.latency,
       framesPerSecond = json.frames_per_second,
       timeStamp = json.timestamp;
 
@@ -73,6 +74,7 @@ function putSessionInfoItem(req, res) {
         "audio_bitrate": audioBitrate,
         "video_loss": videoLoss,
         "audio_los": audioLoss,
+        "latency": latency,
         "frames_per_second": framesPerSecond,
         "timestamp": timeStamp
     }
