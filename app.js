@@ -2,13 +2,14 @@
 
 var a127 = require('a127-magic');
 var express = require('express');
+var basicAuth = require('basic-auth-connect');
 var app = express();
 
 module.exports = app; // for testing
 
 // initialize a127 framework
 a127.init(function(config) {
-
+  app.use(basicAuth('username', 'password'));
   // include a127 middleware
   app.use(a127.middleware(config));
 
