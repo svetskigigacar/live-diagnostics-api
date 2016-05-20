@@ -26,7 +26,7 @@ a127.init(function(config) {
     }
 
     // Return a JSON representation of #/definitions/ErrorResponse
-    res.set('Content-Type', 'application/json; charset=utf8');
+    res.set('Content-Type', 'application/json');
     res.end(JSON.stringify(err));
   });
 
