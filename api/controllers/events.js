@@ -5,6 +5,8 @@ module.exports = {
   getEventList: getEventList
 };
 
+var tableName = "Events";
+
 var awsdb = require('../helpers/dynamodb_connect.js');
 
 function createEvent(req, res) {
@@ -16,7 +18,7 @@ function createEvent(req, res) {
   var eventType = json.type;
   
   var params = {
-    TableName:"EventsTestDB",
+    TableName: tableName,
     Item:{
         "session_id_user_id": sessionId + '_' + userId,
         "session_id": sessionId,
@@ -46,7 +48,7 @@ function getEventList(req, res) {
 
     if (req.param('user_id')) {
       var params = {
-        TableName: "EventsTestDB",
+        TableName: tableName,
         KeyConditionExpression: "session_id_user_id = :session_id_user_id",
         ExpressionAttributeValues: {
           ":session_id_user_id": sessionId + '_' + userId
@@ -55,7 +57,7 @@ function getEventList(req, res) {
     } else
     {
       var params = {
-        TableName : "EventsTestDB",
+        TableName: tableName,
         IndexName: "session_id-timestamp-index",
         KeyConditionExpression: "session_id = :session_id",
         ExpressionAttributeValues: {

@@ -5,7 +5,7 @@ module.exports = {
   putSessionInfoItem: putSessionInfoItem
 };
 
-var tableName = "SessionInfos"
+var tableName = "SessionInfos";
 
 var awsdb = require('../helpers/dynamodb_connect.js');
 
