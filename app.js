@@ -26,7 +26,7 @@ a127.init(function(config) {
     }
 
     // Return a JSON representation of #/definitions/ErrorResponse
-    res.set('Content-Type', 'application/javascript');
+    res.set('Content-Type', 'text/javascript');
     res.end(JSON.stringify(err));
   });
 
