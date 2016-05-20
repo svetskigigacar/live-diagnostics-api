@@ -13,10 +13,10 @@ schemes:
   - https
 # format of bodies a client can send (Content-Type)
 consumes:
-  - application/json
+  - text/javascript
 # format of the responses to the client (Accepts)
 produces:
-  - application/json
+  - text/javascript
 x-a127-config: {}
 x-a127-services: {}
 paths:
