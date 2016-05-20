@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Hello World App
 # during dev, should point to your local machine
-host: localhost:10010
+host: localhost:5000
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -13,10 +13,10 @@ schemes:
   - https
 # format of bodies a client can send (Content-Type)
 consumes:
-  - application/javascript
+  - application/json
 # format of the responses to the client (Accepts)
 produces:
-  - application/javascript
+  - application/json
 x-a127-config: {}
 x-a127-services: {}
 paths:
@@ -35,6 +35,11 @@ paths:
           required: true
           type: string
         - name: user_id
+          in: query
+          description: user_id to get list of bitrates for
+          required: false
+          type: string
+        - name: callback
           in: query
           description: user_id to get list of bitrates for
           required: false
