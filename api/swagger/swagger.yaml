@@ -39,11 +39,6 @@ paths:
           description: user_id to get list of bitrates for
           required: false
           type: string
-        - name: callback
-          in: query
-          description: user_id to get list of bitrates for
-          required: false
-          type: string
       responses:
         "200":
           description: Success
