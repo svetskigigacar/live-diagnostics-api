@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Live Diagnostic Api
 # during dev, should point to your local machine
-host: localhost:10010
+host: localhost:5000
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -25,7 +25,7 @@ paths:
     x-swagger-router-controller: session_infos
     x-a127-apply: {}
     get:
-      description: Returns bitrates by session
+      description: Returns session info by session
       # used as the method name of the controller
       operationId: getSessionInfoItems
       parameters:
@@ -40,16 +40,10 @@ paths:
           required: false
           type: string
       responses:
-        "200":
+        200:
           description: Success
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-            # a pointer to a definition
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
+        401:
+          description: Unauthorized
     post:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
@@ -64,14 +58,9 @@ paths:
       responses:
         "201":
           description: Created
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
         # responses may fall through to errors
         default:
           description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /events:
     # binds a127 app logic to a route
     x-swagger-router-controller: events
@@ -89,14 +78,9 @@ paths:
       responses:
         "200":
           description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
         # responses may fall through to errors
         default:
           description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
     post:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
@@ -111,17 +95,6 @@ paths:
       responses:
         "201":
           description: Created
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
         # responses may fall through to errors
         default:
           description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-# complex objects have schema definitions
-definitions:
-  HelloWorldResponse:
-    type: string
-  ErrorResponse:
-    type: string

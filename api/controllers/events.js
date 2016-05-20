@@ -11,9 +11,9 @@ function createEvent(req, res) {
   var json = JSON.parse(req.body);
   var sessionId =  json.session_id;
   var userId = json.user_id;
-  var eventTimeStamp = json.event_time_stamp;
-  var eventContext = json.event_context;
-  var eventType = json.event_type;
+  var eventTimestamp = json.timestamp;
+  var eventContext = json.context;
+  var eventType = json.type;
   
   var params = {
     TableName:"EventsTestDB",
@@ -21,9 +21,9 @@ function createEvent(req, res) {
         "session_id_user_id": sessionId + '_' + userId,
         "session_id": sessionId,
         "user_id": userId,
-        "event_time_stamp": eventTimeStamp,
-        "event_context": eventContext,
-        "event_type": eventType
+        "timestamp": eventTimestamp,
+        "context": eventContext,
+        "type": eventType
     }
   };
 
@@ -56,7 +56,7 @@ function getEventList(req, res) {
     {
       var params = {
         TableName : "EventsTestDB",
-        IndexName: "session_id-event_time_stamp-index",
+        IndexName: "session_id-timestamp-index",
         KeyConditionExpression: "session_id = :session_id",
         ExpressionAttributeValues: {
             ":session_id":sessionId
