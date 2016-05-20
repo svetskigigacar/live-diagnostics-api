@@ -13,7 +13,7 @@ schemes:
   - https
 # format of bodies a client can send (Content-Type)
 consumes:
-  - text/javascript
+  - application/json
 # format of the responses to the client (Accepts)
 produces:
   - text/javascript
