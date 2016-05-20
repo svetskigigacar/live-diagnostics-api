@@ -26,8 +26,7 @@ a127.init(function(config) {
     }
 
     // Return a JSON representation of #/definitions/ErrorResponse
-    res.set('Content-Type', 'application/javascript');
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.set('Content-Type', 'application/json; charset=utf8');
     res.end(JSON.stringify(err));
   });
 
