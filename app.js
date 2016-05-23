@@ -11,12 +11,12 @@ module.exports = app; // for testing
 // initialize a127 framework
 a127.init(function(config) {
   app.use(cors());
-  
+
   app.use(basicAuth('username', 'password'));
   // include a127 middleware
   app.use(a127.middleware(config));
 
-  app.use('/static', express.static('api/static'));
+  app.use('/diagnostics', express.static('api/diagnostics'));
 
   // error handler to emit errors as a json string
   app.use(function(err, req, res, next) {

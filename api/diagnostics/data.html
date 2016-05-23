@@ -41,8 +41,8 @@
             };
 
         $.each(data, function(index){
-          var time = moment(data[index].timestamp).valueOf();
-          if(data[index].user_id == 'user1') {
+          var time = moment.unix(data[index].timestamp).format('MM/DD');
+          if(data[index].user_id == 'left') {
             u1.video_bitrate.push([time, data[index].video_bitrate]);
             u1.audio_bitrate.push([time, data[index].audio_bitrate]);
             u1.combined_bitrate.push([time, data[index].video_bitrate+data[index].audio_bitrate]);
@@ -276,41 +276,6 @@
 	<body>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
-<h2>Sessions</h2>
-<table width="100%">
-    <thead>
-      <tr>
-        <th>Num</th>
-        <th>Session ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1.</td>
-        <td><a href="?session_id=session1">7RXe2khdRRG3JkxkT2J7ZfCONfbvordO</a></td>
-      </tr> 
-      <tr>
-        <td>2.</td>
-        <td><a href="?session_id=session2">xeNq4esWXF3aqvk7PXChWCqZLhPCZySn</a></td>
-      </tr>
-      <tr>
-        <td>3.</td>
-        <td><a href="?session_id=session3">VJpgdciXwPuHNRwUJhq4i0aIPms6u24Q</a></td>
-      </tr>
-      <tr>
-        <td>4.</td>
-        <td><a href="?session_id=session4">9v9aaimQhc4PpBaEzzVlx9M97X0n55rT</a></td>
-      </tr>
-      <tr>
-        <td>5.</td>
-        <td><a href="?session_id=session5">g4hH8cJH33ulqGfXGmEe95UB3mfqVlC9</a></td>
-      </tr>
-      <tr>
-        <td>6.</td>
-        <td><a href="?session_id=session6">dOZR7UCG0qHJBzoumKGtQKf4Wm0TuAyf</a></td>
-      </tr>
-    </tbody>
-  </table>
 <h2>Bitrate</h2>
 <div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 <h2>Latency</h2>
