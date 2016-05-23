@@ -39,8 +39,8 @@ a127.init(function(config) {
     else {
       next();
     }
-    
-    res.set('Content-Type', 'text/javascript');
+
+    res.set('Content-Type', 'text/javascript,text/html');
     res.end(JSON.stringify(err));
   });
 
