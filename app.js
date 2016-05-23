@@ -4,11 +4,14 @@ var a127 = require('a127-magic');
 var express = require('express');
 var basicAuth = require('basic-auth-connect');
 var app = express();
+var cors = require('cors');
 
 module.exports = app; // for testing
 
 // initialize a127 framework
 a127.init(function(config) {
+  app.use(cors());
+  
   app.use(basicAuth('username', 'password'));
   // include a127 middleware
   app.use(a127.middleware(config));
@@ -28,19 +31,7 @@ a127.init(function(config) {
     }
 
     // Return a JSON representation of #/definitions/ErrorResponse
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-    // intercept OPTIONS method
-    if ('OPTIONS' == req.method) {
-      res.send(200);
-    }
-    else {
-      next();
-    }
-
-    res.set('Content-Type', 'text/javascript,text/html');
+    res.set('Content-Type', 'text/javascript');
     res.end(JSON.stringify(err));
   });
 

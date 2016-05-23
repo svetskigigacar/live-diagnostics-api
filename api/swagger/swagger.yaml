@@ -72,28 +72,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-    options:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: putSessionInfoItem
-      parameters:
-        - name: name
-          in: body
-          description: Desc
-          required: false
-          schema:
-            type: string
-      responses:
-        "201":
-          description: Created
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /events:
     # binds a127 app logic to a route
     x-swagger-router-controller: events
