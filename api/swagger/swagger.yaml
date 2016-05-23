@@ -14,9 +14,11 @@ schemes:
 # format of bodies a client can send (Content-Type)
 consumes:
   - application/json
+  - text/plain
 # format of the responses to the client (Accepts)
 produces:
   - text/javascript
+  - application/json
 x-a127-config: {}
 x-a127-services: {}
 paths:
