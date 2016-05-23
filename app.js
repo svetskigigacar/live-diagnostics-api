@@ -15,12 +15,6 @@ a127.init(function(config) {
 
   app.use('/static', express.static('api/static'));
 
-  app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-
   // error handler to emit errors as a json string
   app.use(function(err, req, res, next) {
     if (typeof err !== 'object') {
