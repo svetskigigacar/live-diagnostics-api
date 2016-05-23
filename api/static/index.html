@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Bitrate Example</title>
+
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+		<script type="text/javascript">
+    function getURLParameter(name) {
+      return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+
+    var session_id = getURLParameter('session_id');
+
+    $(function () {
+
+      $.ajax('https://live-diagnostic-api.herokuapp.com/session_infos?session_id=' + session_id, {
+        dataType: 'jsonp',
+        xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username:password'));
+        },
+        success: function(data){
+          console.log(data);
+          var u1 = {
+              video_bitrate: [],
+              audio_bitrate: [],
+              combined_bitrate: [],
+              latency: [],
+              fps: []
+            },
+            u2 = {
+              video_bitrate: [],
+              audio_bitrate: [],
+              combined_bitrate: [],
+              latency: [],
+              fps: []
+            };
+
+        $.each(data, function(index){
+          var time = moment(data[index].timestamp).valueOf();
+          if(data[index].user_id == 'user1') {
+            u1.video_bitrate.push([time, data[index].video_bitrate]);
+            u1.audio_bitrate.push([time, data[index].audio_bitrate]);
+            u1.combined_bitrate.push([time, data[index].video_bitrate+data[index].audio_bitrate]);
+            u1.latency.push([time, data[index].latency]);
+            u1.fps.push([time, data[index].frames_per_second]);
+          } else {
+            u2.video_bitrate.push([time, data[index].video_bitrate]);
+            u2.audio_bitrate.push([time, data[index].audio_bitrate]);
+            u2.combined_bitrate.push([time, data[index].video_bitrate+data[index].audio_bitrate]);
+            u2.latency.push([time, data[index].latency]);
+            u2.fps.push([time, data[index].frames_per_second]);
+          }
+        });
+
+        $('#bitrate').highcharts({
+          chart: {
+            zoomType: 'x'
+          },
+          title: {
+            text: 'video + audio',
+          },
+          xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+              month: '%e. %b',
+              year: '%b'
+            },
+            title: {
+              text: 'Date'
+            }
+          },
+          yAxis: {
+            plotLines: [{
+              value: 2000,
+              color: 'red',
+              width: 1,
+              label: {
+                text: 'Optimal bitrate',
+                align: 'center',
+                style: {
+                  color: 'red'
+                }
+              }
+            },{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            valueSuffix: 'kbps'
+          },
+          legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+          },
+          series: [{
+            name: 'User1',
+            data: u1.combined_bitrate
+          }, {
+            name: 'User2',
+            data: u2.combined_bitrate
+          }]
+        });
+
+        $('#latency').highcharts({
+          chart: {
+            zoomType: 'x'
+          },
+          xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+              month: '%e. %b',
+              year: '%b'
+            },
+            title: {
+              text: 'Date'
+            }
+          },
+          yAxis: {
+            plotLines: [{
+              value: 100,
+              color: 'red',
+              width: 1,
+              label: {
+                text: 'Optimal latency',
+                align: 'center',
+                style: {
+                  color: 'red'
+                }
+              }
+            },{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            valueSuffix: 'ms'
+          },
+          legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+          },
+          series: [{
+            name: 'User1',
+            data: u1.latency
+          }, {
+            name: 'User2',
+            data: u2.latency
+          }]
+        });
+
+        $('#fps').highcharts({
+          chart: {
+            zoomType: 'x'
+          },
+          title: {
+            text: 'frames per second'
+          },
+          xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: { // don't display the dummy year
+              month: '%e. %b',
+              year: '%b'
+            },
+            title: {
+              text: 'Date'
+            }
+          },
+          yAxis: {
+            plotLines: [{
+              value: 24,
+              color: 'red',
+              width: 1,
+              label: {
+                text: 'Optimal FPS',
+                align: 'center',
+                style: {
+                  color: 'red'
+                }
+              }
+            },{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            }]
+          },
+          tooltip: {
+            valueSuffix: 'fps'
+          },
+          legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+          },
+          series: [{
+            name: 'User1',
+            data: u1.fps
+          }, {
+            name: 'User2',
+            data: u2.fps
+          }]
+        });
+
+        }
+      });
+
+      $.ajax('https://live-diagnostic-api.herokuapp.com/events?session_id=' + session_id, {
+        dataType: 'jsonp',
+        xhrFields: {
+          withCredentials: true
+        },
+        beforeSend: function (xhr) {
+          xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username:password'));
+        },
+        success: function (data) {
+          console.log(data);
+          var container = $('.js-events');
+          $.each(data, function(index){
+            var item = '<td>'+ data[index].user_id + '</td>' + '<td>' + data[index].timestamp + '</td>' + '<td>' + data[index].context + '</td>';
+            container.append('<tr>'+item+'</tr>');
+          });
+        }
+      });
+
+  });
+		</script>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+        font-weight: 300;
+      }
+      table {
+        width: 100%;
+      }
+
+      th {
+        border-bottom: 1px solid #ccc;
+        padding: 5px 10px;
+        text-align: left;
+      }
+
+      td {
+        border-bottom: 1px solid #ccc;
+        padding: 10px;
+      }
+
+      h2 {
+        font-weight: normal;
+        margin: 90px 0 20px;
+        text-align: center;
+      }
+ 
+      a {
+        text-decoration: none;
+        color: #4AA0D6;
+        display: block;
+        width: 100%;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+    </style>
+	</head>
+	<body>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<h2>Sessions</h2>
+<table width="100%">
+    <thead>
+      <tr>
+        <th>Num</th>
+        <th>Session ID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1.</td>
+        <td><a href="?session_id=session1">7RXe2khdRRG3JkxkT2J7ZfCONfbvordO</a></td>
+      </tr> 
+      <tr>
+        <td>2.</td>
+        <td><a href="?session_id=session2">xeNq4esWXF3aqvk7PXChWCqZLhPCZySn</a></td>
+      </tr>
+      <tr>
+        <td>3.</td>
+        <td><a href="?session_id=session3">VJpgdciXwPuHNRwUJhq4i0aIPms6u24Q</a></td>
+      </tr>
+      <tr>
+        <td>4.</td>
+        <td><a href="?session_id=session4">9v9aaimQhc4PpBaEzzVlx9M97X0n55rT</a></td>
+      </tr>
+      <tr>
+        <td>5.</td>
+        <td><a href="?session_id=session5">g4hH8cJH33ulqGfXGmEe95UB3mfqVlC9</a></td>
+      </tr>
+      <tr>
+        <td>6.</td>
+        <td><a href="?session_id=session6">dOZR7UCG0qHJBzoumKGtQKf4Wm0TuAyf</a></td>
+      </tr>
+    </tbody>
+  </table>
+<h2>Bitrate</h2>
+<div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<h2>Latency</h2>
+<div id="latency" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<h2>FPS</h2>
+<div id="fps" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<h2>Events</h2>
+  <table width="100%">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Time</th>
+        <th>Context</th>
+      </tr>
+    </thead>
+    <tbody class="js-events"></tbody>
+  </table>
+	</body>
+</html>
