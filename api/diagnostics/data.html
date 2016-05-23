@@ -40,7 +40,8 @@
             };
 
         $.each(data, function(index){
-          var time = moment.unix(data[index].timestamp).valueOf();
+          var timeVal = parseInt(data[index].timestamp, 10)
+          var time = moment(timeVal).valueOf();
           if(data[index].user_id == 'left') {
             u1.video_bitrate.push([time, data[index].video_bitrate]);
             u1.audio_bitrate.push([time, data[index].audio_bitrate]);
