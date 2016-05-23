@@ -13,6 +13,8 @@ a127.init(function(config) {
   // include a127 middleware
   app.use(a127.middleware(config));
 
+  app.use('/static', express.static('api/static'));
+
   // error handler to emit errors as a json string
   app.use(function(err, req, res, next) {
     if (typeof err !== 'object') {
