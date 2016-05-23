@@ -24,7 +24,6 @@
           xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username:password'));
         },
         success: function(data){
-          console.log(data);
           var u1 = {
               video_bitrate: [],
               audio_bitrate: [],
@@ -41,7 +40,7 @@
             };
 
         $.each(data, function(index){
-          var time = moment.unix(data[index].timestamp).format('MM/DD');
+          var time = moment.unix(data[index].timestamp).valueOf();
           if(data[index].user_id == 'left') {
             u1.video_bitrate.push([time, data[index].video_bitrate]);
             u1.audio_bitrate.push([time, data[index].audio_bitrate]);
@@ -225,7 +224,6 @@
           xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username:password'));
         },
         success: function (data) {
-          console.log(data);
           var container = $('.js-events');
           $.each(data, function(index){
             var item = '<td>'+ data[index].user_id + '</td>' + '<td>' + data[index].timestamp + '</td>' + '<td>' + data[index].context + '</td>';
