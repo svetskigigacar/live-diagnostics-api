@@ -28,20 +28,8 @@ a127.init(function(config) {
     }
 
     // Return a JSON representation of #/definitions/ErrorResponse
-    if (req.method === 'OPTIONS') {
-      console.log('!OPTIONS');
-      var headers = {};
-      // IE8 does not allow domains to be specified, just the *
-      // headers["Access-Control-Allow-Origin"] = req.headers.origin;
-      headers["Access-Control-Allow-Origin"] = "*";
-      headers["Access-Control-Allow-Methods"] = "POST, GET, PUT, DELETE, OPTIONS";
-      headers["Access-Control-Allow-Headers"] = "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept";
-      res.writeHead(200, headers);
-      res.end();
-    } else {
-      res.set('Content-Type', 'text/javascript');
-      res.end(JSON.stringify(err));     
-    }
+    res.set('Content-Type', 'text/javascript');
+    res.end(JSON.stringify(err));
   });
 
   // var ip = process.env.IP || 'localhost';
