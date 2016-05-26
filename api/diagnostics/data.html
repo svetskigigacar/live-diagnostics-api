@@ -22,8 +22,10 @@
         },
         beforeSend: function (xhr) {
           xhr.setRequestHeader('Authorization', 'Basic ' + btoa('username:password'));
+          $('.loader').show();
         },
         success: function(data){
+          $('.loader').hide();
           var u1 = {
               video_bitrate: [],
               audio_bitrate: [],
@@ -55,6 +57,8 @@
             u2.latency.push([time, data[index].latency]);
             u2.fps.push([time, data[index].frames_per_second]);
           }
+          $('.bitrates').show();
+          $('.fpss').show();
         });
 
         $('#bitrate').highcharts({
@@ -270,18 +274,37 @@
       a:hover {
         text-decoration: underline;
       }
+      .loader {
+        display: none;
+        width: 100%;
+        position: fixed;
+        top: 50%;
+        text-align:center;
+        margin-top: -100px;
+        z-index:2;
+        overflow: auto;
+      }
     </style>
 	</head>
 	<body>
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/exporting.js"></script>
+<div class="loader">
+   <center>
+       <img class="loading-image" src="images/loader.gif" alt="loading.." width="50" >
+   </center>
+</div>
 <h2>Session Information</h2>
+<div class="bitrates" style="display: none;">
 <h2>Bitrate</h2>
-<div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+</div>
 <!-- <h2>Latency</h2>
 <div id="latency" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
+<div class="fpss" style="display: none;>
 <h2>FPS</h2>
-<div id="fps" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="fps" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+</div>
 <!-- <h2>Events</h2>
   <table width="100%">
     <thead>
