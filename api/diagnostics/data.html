@@ -66,7 +66,7 @@
             zoomType: 'x'
           },
           title: {
-            text: 'video + audio',
+            text: 'kilobits per second',
           },
           xAxis: {
             type: 'datetime',
@@ -80,14 +80,30 @@
           },
           yAxis: {
             plotLines: [{
-              value: 370,
+              value: 350,
               color: 'red',
               width: 1,
               label: {
-                text: 'Optimal bitrate',
+                text: 'Tokbox trashhold',
                 align: 'center',
                 style: {
                   color: 'red'
+                }
+              }
+            },{
+              value: 0,
+              width: 1,
+              color: '#808080'
+            },
+            {
+              value: 100,
+              color: 'blue',
+              width: 1,
+              label: {
+                text: 'Red5 trashhold',
+                align: 'center',
+                style: {
+                  color: 'blue'
                 }
               }
             },{
@@ -182,22 +198,7 @@
             }
           },
           yAxis: {
-            plotLines: [{
-              value: 13.5,
-              color: 'red',
-              width: 1,
-              label: {
-                text: 'Optimal FPS',
-                align: 'center',
-                style: {
-                  color: 'red'
-                }
-              }
-            },{
-              value: 0,
-              width: 1,
-              color: '#808080'
-            }]
+            plotLines: []
           },
           tooltip: {
             valueSuffix: 'fps'
