@@ -43,7 +43,7 @@
 
         $.each(data, function(index){
           var timeVal = parseInt(data[index].timestamp, 10);
-          var time = moment(timeVal).valueOf();
+          var time = moment(timeVal).add(2, 'hours').valueOf();
           if(data[index].user_id == 'US') {
             u1.video_bitrate.push([time, data[index].video_bitrate]);
             u1.audio_bitrate.push([time, data[index].audio_bitrate]);
