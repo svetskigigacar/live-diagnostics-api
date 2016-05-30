@@ -1,15 +1,16 @@
 'use strict';
 
 module.exports = {
-  getSessionInfoItems: getSessionInfoItems,
-  putSessionInfoItem: putSessionInfoItem
+  getStreamItems: getStreamItems,
+  putUploadItem: putUploadItem,
+  putDownloadItem: putDownloadItem
 };
 
-var tableName = "SessionInfos";
+var tableName = "Streams";
 
 var awsdb = require('../helpers/dynamodb_connect.js');
 
-function getSessionInfoItems(req, res) {
+function getStreamItems(req, res) {
   if (req.param('session_id')) {
     var sessionId = req.param('session_id');
     var userId = req.param('user_id');
@@ -51,32 +52,43 @@ function getSessionInfoItems(req, res) {
 
 }
 
-
-function putSessionInfoItem(req, res) {
+function putUploadItem(req, res) {
   var json = JSON.parse(req.body),
       sessionId =  json.session_id,
       userId = json.user_id,
       videoBitrate = json.video_bitrate,
       audioBitrate = json.audio_bitrate,
-      videoLoss = json.video_loss,
-      audioLoss = json.audio_loss,
-      latency = json.latency,
       framesPerSecond = json.frames_per_second,
-      timeStamp = json.timestamp;
+      timestamp = json.timestamp;
 
+  putStreamItem(req, res, sessionId, userId, videoBitrate, audioBitrate, framesPerSecond, timestamp, "upload");
+}
+
+function putDownloadItem(req, res) {
+  var json = JSON.parse(req.body),
+      sessionId =  json.session_id,
+      userId = json.user_id,
+      videoBitrate = json.video_bitrate,
+      audioBitrate = json.audio_bitrate,
+      framesPerSecond = json.frames_per_second,
+      timestamp = json.timestamp;
+
+  putStreamItem(req, res, sessionId, userId, videoBitrate, audioBitrate, framesPerSecond, timestamp, "download");
+}
+
+
+function putStreamItem(req, res, sessionId, userId, videoBitrate, audioBitrate, framesPerSecond, timestamp, requestType) {
   var params = {
     TableName: tableName,
     Item:{
-        "session_id_user_id": sessionId + '_' + userId,
+        "session_id_user_id_type": sessionId + '_' + userId + '_' + requestType,
         "session_id": sessionId,
         "user_id": userId,
         "video_bitrate": videoBitrate,
         "audio_bitrate": audioBitrate,
-        "video_loss": videoLoss,
-        "audio_los": audioLoss,
-        "latency": latency,
         "frames_per_second": framesPerSecond,
-        "timestamp": timeStamp
+        "timestamp": timestamp,
+        "type": requestType
     }
   };
 

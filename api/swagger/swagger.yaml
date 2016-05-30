@@ -22,14 +22,14 @@ produces:
 x-a127-config: {}
 x-a127-services: {}
 paths:
-  /session_infos:
+  /streams:
     # binds a127 app logic to a route
-    x-swagger-router-controller: session_infos
+    x-swagger-router-controller: streams
     x-a127-apply: {}
     get:
       description: Returns bitrates by session
       # used as the method name of the controller
-      operationId: getSessionInfoItems
+      operationId: getStreamItems
       parameters:
         - name: session_id
           in: query
@@ -52,10 +52,38 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /streams/upload:
+    x-swagger-router-controller: streams
+    x-a127-apply: {}
     post:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
-      operationId: putSessionInfoItem
+      operationId: putUploadItem
+      parameters:
+        - name: name
+          in: body
+          description: Desc
+          required: false
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Created
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /streams/download:
+    x-swagger-router-controller: streams
+    x-a127-apply: {}
+    post:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: putDownloadItem
       parameters:
         - name: name
           in: body
