@@ -15,7 +15,7 @@
 
     $(function () {
 
-      $.ajax('https://live-diagnostic-api.herokuapp.com/session_infos?session_id=' + session_id, {
+      $.ajax('https://live-diagnostic-api.herokuapp.com/streams?session_id=' + session_id, {
         dataType: 'jsonp',
         xhrFields: {
           withCredentials: true
