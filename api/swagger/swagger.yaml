@@ -58,7 +58,7 @@ paths:
     post:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
-      operationId: putUploadItem
+      operationId: putUploadStreamItem
       parameters:
         - name: name
           in: body
@@ -83,7 +83,7 @@ paths:
     post:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
-      operationId: putDownloadItem
+      operationId: putDownloadStreamItem
       parameters:
         - name: name
           in: body

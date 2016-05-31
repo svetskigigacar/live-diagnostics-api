@@ -2,8 +2,8 @@
 
 module.exports = {
   getStreamItems: getStreamItems,
-  putUploadItem: putUploadItem,
-  putDownloadItem: putDownloadItem
+  putUploadStreamItem: putUploadStreamItem,
+  putDownloadStreamItem: putDownloadStreamItem
 };
 
 var tableName = "Streams";
@@ -52,7 +52,7 @@ function getStreamItems(req, res) {
 
 }
 
-function putUploadItem(req, res) {
+function putUploadStreamItem(req, res) {
   var json = JSON.parse(req.body),
       sessionId =  json.session_id,
       userId = json.user_id,
@@ -64,7 +64,7 @@ function putUploadItem(req, res) {
   putStreamItem(req, res, sessionId, userId, videoBitrate, audioBitrate, framesPerSecond, timestamp, "upload");
 }
 
-function putDownloadItem(req, res) {
+function putDownloadStreamItem(req, res) {
   var json = JSON.parse(req.body),
       sessionId =  json.session_id,
       userId = json.user_id,
