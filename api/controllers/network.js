@@ -2,8 +2,8 @@
 
 module.exports = {
   getNetworkItems: getNetworkItems,
-  putUploadItem: putUploadNetworkItem,
-  putDownloadItem: putDownloadNetworkItem
+  putUploadNetworkItem: putUploadNetworkItem,
+  putDownloadNetworkItem: putDownloadNetworkItem
 };
 
 var tableName = "Network";
