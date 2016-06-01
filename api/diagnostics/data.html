@@ -25,41 +25,46 @@
           $('.loader').show();
         },
         success: function(data){
+          console.log(data);
           $('.loader').hide();
           var u1 = {
-              video_bitrate: [],
-              audio_bitrate: [],
-              combined_bitrate: [],
-              latency: [],
-              fps: []
+              upload_video_bitrate: [],
+              upload_audio_bitrate: [],
+              upload_combined_bitrate: [],
+              download_video_bitrate: [],
+              download_audio_bitrate: [],
+              download_combined_bitrate: [],
+              upload_fps: [],
+              download_fps: []
             },
             u2 = {
-              video_bitrate: [],
-              audio_bitrate: [],
-              combined_bitrate: [],
-              latency: [],
-              fps: []
+              upload_video_bitrate: [],
+              upload_audio_bitrate: [],
+              upload_combined_bitrate: [],
+              download_video_bitrate: [],
+              download_audio_bitrate: [],
+              download_combined_bitrate: [],
+              upload_fps: [],
+              download_fps: []
             };
 
         $.each(data, function(index){
           var timeVal = parseInt(data[index].timestamp, 10);
           var time = moment(timeVal).add(2, 'hours').valueOf();
           if((data[index].user_id == 'US') || (data[index].user_id == 'user1')) {
-            u1.video_bitrate.push([time, data[index].video_bitrate]);
-            u1.audio_bitrate.push([time, data[index].audio_bitrate]);
-            u1.combined_bitrate.push([time, data[index].video_bitrate+data[index].audio_bitrate]);
-            u1.latency.push([time, data[index].latency]);
-            u1.fps.push([time, data[index].frames_per_second]);
+            u1[ data[index].type + '_video_bitrate' ].push([time, data[index].video_bitrate]);
+            u1[ data[index].type + '_audio_bitrate'].push([time, data[index].audio_bitrate]);
+            u1[ data[index].type + '_combined_bitrate'].push([time, data[index].video_bitrate+data[index].audio_bitrate]);
+            u1[ data[index].type + '_fps'].push([time, data[index].frames_per_second]);
           } else {
-            u2.video_bitrate.push([time, data[index].video_bitrate]);
-            u2.audio_bitrate.push([time, data[index].audio_bitrate]);
-            u2.combined_bitrate.push([time, data[index].video_bitrate+data[index].audio_bitrate]);
-            u2.latency.push([time, data[index].latency]);
-            u2.fps.push([time, data[index].frames_per_second]);
+            u2[ data[index].type + '_video_bitrate' ].push([time, data[index].video_bitrate]);
+            u2[ data[index].type + '_audio_bitrate'].push([time, data[index].audio_bitrate]);
+            u2[ data[index].type + '_combined_bitrate'].push([time, data[index].video_bitrate+data[index].audio_bitrate]);
+            u2[ data[index].type + '_fps'].push([time, data[index].frames_per_second]);
           }
-          $('.bitrates').show();
-          $('.fpss').show();
         });
+        $('.bitrates').show();
+        $('.fps').show();
 
         $('#bitrate').highcharts({
           chart: {
@@ -122,63 +127,69 @@
             borderWidth: 0
           },
           series: [{
-            name: 'US',
-            data: u1.combined_bitrate
+            name: 'US D',
+            data: u1.download_combined_bitrate
           }, {
-            name: 'RS',
-            data: u2.combined_bitrate
+            name: 'US U',
+            data: u1.upload_combined_bitrate
+          }, {
+            name: 'RS D',
+            data: u2.download_combined_bitrate
+          }, {
+            name: 'RS U',
+            data: u2.upload_combined_bitrate
           }]
         });
 
-        $('#latency').highcharts({
-          chart: {
-            zoomType: 'x'
-          },
-          xAxis: {
-            type: 'datetime',
-            dateTimeLabelFormats: { // don't display the dummy year
-              month: '%e. %b',
-              year: '%b'
-            },
-            title: {
-              text: 'Date'
-            }
-          },
-          yAxis: {
-            plotLines: [{
-              value: 100,
-              color: 'red',
-              width: 1,
-              label: {
-                text: 'Optimal latency',
-                align: 'center',
-                style: {
-                  color: 'red'
-                }
-              }
-            },{
-              value: 0,
-              width: 1,
-              color: '#808080'
-            }]
-          },
-          tooltip: {
-            valueSuffix: 'ms'
-          },
-          legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-          },
-          series: [{
-            name: 'US',
-            data: u1.latency
-          }, {
-            name: 'RS',
-            data: u2.latency
-          }]
-        });
+//        $('#latency').highcharts({
+//          chart: {
+//            zoomType: 'x'
+//          },
+//          xAxis: {
+//            type: 'datetime',
+//            dateTimeLabelFormats: { // don't display the dummy year
+//              month: '%e. %b',
+//              year: '%b'
+//            },
+//            title: {
+//              text: 'Date'
+//            }
+//          },
+//          yAxis: {
+//            plotLines: [{
+//              value: 100,
+//              color: 'red',
+//              width: 1,
+//              label: {
+//                text: 'Optimal latency',
+//                align: 'center',
+//                style: {
+//                  color: 'red'
+//                }
+//              }
+//            },{
+//              value: 0,
+//              width: 1,
+//              color: '#808080'
+//            }]
+//          },
+//          tooltip: {
+//            valueSuffix: 'ms'
+//          },
+//          legend: {
+//            layout: 'vertical',
+//            align: 'right',
+//            verticalAlign: 'middle',
+//            borderWidth: 0
+//          },
+//          series: [{
+//            name: 'US',
+//            data: u1.latency
+//          }, {
+//            name: 'RS',
+//            data: u2.latency
+//          }]
+//        });
 
         $('#fps').highcharts({
           chart: {
@@ -210,11 +221,17 @@
             borderWidth: 0
           },
           series: [{
-            name: 'US',
-            data: u1.fps
+            name: 'US D',
+            data: u1.download_fps
           }, {
-            name: 'RS',
-            data: u2.fps
+            name: 'US U',
+            data: u1.upload_fps
+          }, {
+            name: 'RS D',
+            data: u2.download_fps
+          }, {
+            name: 'RS U',
+            data: u2.upload_fps
           }]
         });
 
@@ -235,6 +252,58 @@
             var item = '<td>'+ data[index].user_id + '</td>' + '<td>' + data[index].timestamp + '</td>' + '<td>' + data[index].context + '</td>';
             container.append('<tr>'+item+'</tr>');
           });
+        }
+      });
+
+      $('.js-toggle-bitrate-download').click(function() {
+        var chart = $('#bitrate').highcharts();
+        var series = chart.series;
+        var seriesIndex = 0;
+        if(series[seriesIndex].visible) {
+          series[0].hide();
+          series[2].hide();
+        } else {
+          series[0].show();
+          series[2].show();
+        }
+      });
+
+      $('.js-toggle-bitrate-upload').click(function() {
+        var chart = $('#bitrate').highcharts();
+        var series = chart.series;
+        var seriesIndex = 1;
+        if(series[seriesIndex].visible) {
+          series[1].hide();
+          series[3].hide();
+        } else {
+          series[1].show();
+          series[3].show();
+        }
+      });
+
+      $('.js-toggle-fps-download').click(function() {
+        var chart = $('#fps').highcharts();
+        var series = chart.series;
+        var seriesIndex = 0;
+        if(series[seriesIndex].visible) {
+          series[0].hide();
+          series[2].hide();
+        } else {
+          series[0].show();
+          series[2].show();
+        }
+      });
+
+      $('.js-toggle-fps-upload').click(function() {
+        var chart = $('#fps').highcharts();
+        var series = chart.series;
+        var seriesIndex = 1;
+        if(series[seriesIndex].visible) {
+          series[1].hide();
+          series[3].hide();
+        } else {
+          series[1].show();
+          series[3].show();
         }
       });
 
@@ -298,14 +367,19 @@
 </div>
 <h2>Session Information</h2>
 <div class="bitrates" style="display: none;">
-<h2>Bitrate</h2>
-<div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+  <h2>Bitrate</h2>
+  <div id="bitrate" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+  <button class="js-toggle-bitrate-download">Toggle Download</button>
+  <button class="js-toggle-bitrate-upload">Toggle Upload</button>
 </div>
 <!-- <h2>Latency</h2>
 <div id="latency" style="min-width: 310px; height: 400px; margin: 0 auto"></div> -->
-<div class="fpss" style="display: none;">
-<h2>FPS</h2>
-<div id="fps" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+<div class="fps" style="display: none;">
+  <h2>FPS</h2>
+  <div id="fps" style="min-width: 310px; height: 400px; margin: 0 auto;"></div>
+
+  <button class="js-toggle-fps-download">Toggle Download</button>
+  <button class="js-toggle-fps-upload">Toggle Upload</button>
 </div>
 <!-- <h2>Events</h2>
   <table width="100%">
